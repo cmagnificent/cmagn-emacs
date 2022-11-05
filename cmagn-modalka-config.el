@@ -33,8 +33,10 @@
 (global-set-key (kbd "C-;") 'modalka-mode) ; Modal editing toggle
 
 ;; General Keybindings
+;; Bindinf `h' to `help-map' will
 
 (define-key modalka-mode-map "x" ctl-x-map) ; C-x Map
+(define-key modalka-mode-map "h" help-map) ; Help map
 (define-key modalka-mode-map "c"
   `(lambda () "Simulates the `C-c' key-press" (interactive)
      (setq prefix-arg current-prefix-arg)
@@ -115,7 +117,7 @@
 
 (define-key modalka-mode-map (kbd "d")
   `(lambda ()
-     "If a region is selected delete it otherwise delete forward char"
+     "If a region is selected kill it otherwise delete forward char"
      (interactive)
      (if (use-region-p)
 	 (kill-region (region-beginning) (region-end))
@@ -132,17 +134,19 @@
 
 ;; Code Editing
 
+(define-key modalka-mode-map (kbd "r")
+  `(lambda (&optional char) "Replace the character under point"
+     (interactive "cReplace character: ") (insert char)
+     (delete-char 1) (backward-char 1)))
+
 (modalka-define-kbd "o" "C-o") ; Open line at point
 (modalka-define-kbd "j" "C-j") ; New line (no indent)
 
 (modalka-define-kbd "t" "C-t") ; Transpose characters
 (modalka-define-kbd "i" "C-i") ; Indent region/line
 (modalka-define-kbd "I" "C-S-i") ; Indent region/line
-
-(define-key modalka-mode-map (kbd "r")
-  `(lambda (&optional char) "Replace the character under point"
-     (interactive "cReplace character: ") (insert char)
-     (delete-char 1) (backward-char 1)))
+(modalka-define-kbd ":" "M-;") ; Comment region
+(modalka-define-kbd "z" "M-z") ; Zap (kill up to and including) char
 
 ;; Unused Keys set to nil for sanity preservation
 
@@ -171,7 +175,6 @@
 (modalka-define-kbd "Y" "nil")
 (modalka-define-kbd "U" "nil")
 (modalka-define-kbd "O" "nil")
-(modalka-define-kbd "P" "nil")
 (modalka-define-kbd "[" "nil")
 (modalka-define-kbd "]" "nil")
 (modalka-define-kbd "{" "nil")
@@ -182,17 +185,13 @@
 (modalka-define-kbd "S" "nil")
 (modalka-define-kbd "D" "nil")
 (modalka-define-kbd "G" "nil")
-(modalka-define-kbd "h" "nil")
 (modalka-define-kbd "H" "nil")
 (modalka-define-kbd "J" "nil")
 (modalka-define-kbd "K" "nil")
 (modalka-define-kbd "L" "nil")
-(modalka-define-kbd ":" "nil")
 
-(modalka-define-kbd "z" "nil")
 (modalka-define-kbd "Z" "nil")
 (modalka-define-kbd "X" "nil")
 (modalka-define-kbd "C" "nil")
 (modalka-define-kbd "V" "nil")
-(modalka-define-kbd "N" "nil")
 (modalka-define-kbd "M" "nil")
