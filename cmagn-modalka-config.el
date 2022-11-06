@@ -62,19 +62,40 @@
 (modalka-define-kbd "9" "C-9")
 
 ;; Movement & Scrolling
+;; The lambda functions for the capitalized letters alows them to
+;; work with numerical prefixes, greatly supporting the normal/visual
+;; hybrid modes concept. I tried writing a general function and having
+;; each keypress pass its respective command to it, but I could not
+;; figure out the syntax for the function call with an argument as a keybind.
+;; The current solution works, it's just inelegant.
 
 (modalka-define-kbd "b" "C-b") ; Back one Character
-(define-key modalka-mode-map (kbd "B") (kbd "C-S-b"))
+(define-key modalka-mode-map (kbd "B")
+  `(lambda () "Shift-translated backward-char" (interactive)
+     (setq this-command-keys-shift-translated t)
+     (call-interactively 'backward-char)))
 (modalka-define-kbd "f" "C-f") ; Forward one character
-(define-key modalka-mode-map (kbd "F") (kbd "C-S-f"))
+(define-key modalka-mode-map (kbd "F")
+  `(lambda () "Shift-translated forward-char" (interactive)
+     (setq this-command-keys-shift-translated t)
+     (call-interactively 'forward-char)))
 (modalka-define-kbd "a" "C-a") ; Beginning of line
-(define-key modalka-mode-map (kbd "A") (kbd "C-S-a"))
+(define-key modalka-mode-map (kbd "A")
+  `(lambda () "Shift-translated beginning-of-line" (interactive)
+     (setq this-command-keys-shift-translated t)
+     (call-interactively 'move-beginning-of-line)))
 (modalka-define-kbd "e" "C-e") ; End of line
-(define-key modalka-mode-map (kbd "E") (kbd "C-S-e"))
+  `(lambda () "Shift-translated move-end-of-line" (interactive)
+     (setq this-command-keys-shift-translated t)
+     (call-interactively 'move-end-of-line)))
 (modalka-define-kbd "p" "C-p") ; Previous Line
-(define-key modalka-mode-map (kbd "P") (kbd "C-S-p"))
+  `(lambda () "Shift-translated previous-line" (interactive)
+     (setq this-command-keys-shift-translated t)
+     (call-interactively 'previous-line)))
 (modalka-define-kbd "n" "C-n") ; Next Line
-(define-key modalka-mode-map (kbd "N") (kbd "C-S-n"))
+  `(lambda () "Shift-translated next-line" (interactive)
+     (setq this-command-keys-shift-translated t)
+     (call-interactively 'next-line)))
 (modalka-define-kbd "M-p" "M-{") ; Previous Paragraph
 (modalka-define-kbd "M-n" "M-}") ; Next paragraph
 (modalka-define-kbd "m" "M-m") ; Back to indentation
