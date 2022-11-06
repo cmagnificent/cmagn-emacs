@@ -33,7 +33,6 @@
 (global-set-key (kbd "C-;") 'modalka-mode) ; Modal editing toggle
 
 ;; General Keybindings
-;; Bindinf `h' to `help-map' will
 
 (define-key modalka-mode-map "x" ctl-x-map) ; C-x Map
 (define-key modalka-mode-map "h" help-map) ; Help map
